@@ -1,0 +1,30 @@
+﻿
+h3 {
+    font-family: Segoe UI;
+}
+
+.container {
+    background-color: #FFFFFF;
+    border: 0.2px solid rgba(0,0,0,.125);
+    font-family: Segoe UI;
+    border-radius: 0.3rem;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0;
+}
+
+.table {
+    margin: 0px;
+    margin-left: 0px;
+}
+
+.table tr td {
+    font-weight: 400;
+}
+
+.text-weight {
+    font-weight: 500
+}
+.table thead {
+    background-color: #e9ecef;
+}

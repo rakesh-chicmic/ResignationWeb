@@ -1,0 +1,54 @@
+﻿@page "/resign-applications"
+@inherits ResignationApplicationsBase
+
+<h3>Resignation Applications</h3>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table">
+              <thead>
+                <tr>
+                 <td>Employee</td>
+                 <td>APPLIED ON</td>
+                  <td>RESIGN DATE</td>
+                  <td>RELIEVING DATE</td>
+                  <td>STATUS/ACTION</td>
+                  <td>Details</td>
+                </tr>
+              </thead>
+              <tbody>
+                   @if (resignation != null)
+                    {
+                           @foreach(var res in resignation){
+                            @if (@res.approvedBy == null)
+                            {
+                                <tr>
+                                    <td>@res.userId</td>
+                                    <td class="fw-bold">@res.createdAt.Date.ToString("dd/MM/yyyy")</td>
+                                    <td>@res.resignationDate.ToString("dd/MM/yyyy")</td>
+                                    <td><input  type="date" @bind-value="@res.relievingDate" class="input-backgound" /></td>
+                                   <td>
+                                       <select  @onchange="e => UpdateStatus_Click(e, res)">
+                                           <option value="1">Pending</option>
+                                           <option value="3" >Approve</option>
+                                           <option value="4">Disapprove</option>
+                                       </select>
+                                   </td>
+                                    <td>
+                                        <i class="oi oi-eye ms-3"></i>
+                                    </td>
+                                </tr>
+                            }
+                        }  
+                        }
+                    else
+                    {
+                        <tr>
+                            <td>No Records Found</td>
+                        </tr>
+                    }
+              </tbody>
+            </table>
+        </div>
+     </diV>  
+</div>
