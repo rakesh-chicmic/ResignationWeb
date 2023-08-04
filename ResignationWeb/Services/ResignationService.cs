@@ -12,7 +12,7 @@ namespace ResignationWeb.Services
     public class ResignationService : IResignationService
     {
         private readonly HttpClient _httpClient;
-        string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2NlODg3MTkzZTkxMzA2N2QwMzEyN2IiLCJlbWFpbCI6ImFtYW50YXJhcjAxQGdtYWlsLmNvbSIsInRpbWUiOjE2OTAyNjkyOTY3MjcsImlhdCI6MTY5MDI2OTI5Nn0.bwkDH2ReV2RqTgiAo8vG1SKh8Ast7DUl5jHJI219wOY";
+        string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2NlNzIyMDkzZTkxMzA2N2QwMmFhZGYiLCJlbWFpbCI6ImdwYXN3YW4xOTc2QGdtYWlsLmNvbSIsInRpbWUiOjE2OTA4NjQ0OTQyMjksImlhdCI6MTY5MDg2NDQ5NH0.Oif21Q2hX3k9XjbY3kVashGCg14C5jS2JAJiomF1Uqw";
         public ResignationService(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -22,7 +22,7 @@ namespace ResignationWeb.Services
         {
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Post, "http://192.180.0.127:4146/api/resignation");
+                var request = new HttpRequestMessage(HttpMethod.Post, "http://192.180.0.127:4148/api/resignation");
                 request.Content = new StringContent(JsonSerializer.Serialize(resignRequest), Encoding.UTF8, "application/json");
                 request.Headers.Authorization = new AuthenticationHeaderValue("bearer", token);
 
@@ -46,7 +46,7 @@ namespace ResignationWeb.Services
         {
             try
             {
-                var response = await _httpClient.DeleteFromJsonAsync<APIResponse>($"http://192.180.0.127:4146/api/resignation/{resignId}");
+                var response = await _httpClient.DeleteFromJsonAsync<APIResponse>($"http://192.180.0.127:4148/api/resignation/{resignId}");
                 return response!;
             }
             catch (Exception)
@@ -55,23 +55,22 @@ namespace ResignationWeb.Services
             }
         }
 
-        public async Task<APIResponse> GetAsync(string resignId="")
+        public async Task<APIResponse> GetAsync(int? index=0, int? limit=0, string? resignId="")
         {
-                try
-                {
+            try
+               {
                 if (resignId == "")
                 {
-                    var res = await _httpClient.GetFromJsonAsync<APIResponse>($"http://192.180.0.127:4146/api/resignation");
-                    return res!;
+                    var responseAll = await _httpClient.GetFromJsonAsync<APIResponse>($"http://192.180.0.127:4148/api/resignation?limit={limit}&index={index}");
+                    return responseAll!;
                 }
-                    var response = await _httpClient.GetFromJsonAsync<APIResponse>($"http://192.180.0.127:4146/api/resignation?id={resignId}");
+                var response = await _httpClient.GetFromJsonAsync<APIResponse>($"http://192.180.0.127:4148/api/resignation?limit={limit}&index={index}&id={resignId}");
                     return response!;
                 }
                 catch (Exception)
                 {
                     throw;
                 }
-         
         }
 
         public Task<APIResponse> UpdateAsync(string resignId, ResignationRequestDTO resignUpdate)
@@ -83,7 +82,7 @@ namespace ResignationWeb.Services
         {
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Put, $"http://192.180.0.127:4146/api/resignationStatus/{resignId}");
+                var request = new HttpRequestMessage(HttpMethod.Put, $"http://192.180.0.127:4148/api/resignationStatus/{resignId}");
                 request.Content = new StringContent(JsonSerializer.Serialize(resignStatus), Encoding.UTF8, "application/json");
                 request.Headers.Authorization = new AuthenticationHeaderValue("bearer", token);
 

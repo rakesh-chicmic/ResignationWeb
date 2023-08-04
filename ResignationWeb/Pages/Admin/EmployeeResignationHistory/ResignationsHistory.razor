@@ -44,27 +44,88 @@
                                 }
                                 else
                                 {
-                                    <td>@res.approvedBy</td>
+                                    string approverResponse = JsonSerializer.Serialize(res.approverDetails);
+                                    List<User> approverDetails = JsonSerializer.Deserialize<List<User>>(approverResponse)!;
+                                    <td>@approverDetails[0].name</td>
                                 }
                                 <td>
-                                    <i class="oi oi-eye ms-2"></i>
-
-                                    <i class="oi oi-x ms-1"></i>
+                                     <i class="oi oi-eye ms-1"></i>
+                                     <i class="oi oi-delete"></i>
                                 </td>
                                  </tr>
                            }  
                         }
+
                     else
                     {
                         <tr>
                         <td>No Records Found</td>
                         </tr>
-                    }
-                 
+                    }    
+                  
               </tbody>
+
             </table>
         </div>
-     </diV>  
+        
+     </div>  
+     @*pagination*@
+     <div class="row">
+        <div class="col justify-content-end me-3 mt-3">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-end">
+                    <li class="page-item" >
+                        <button disabled="@IsFirstPage" @onclick="PreviousPage"  style="text-decoration:none;border:none;background-color:transparent">
+                            <span aria-hidden="true" class="page-link">&laquo;</span>
+                        </button>
+                        
+                    </li>
+                    <li class="page-item"><span class="page-link">1</span></li>
+                    <li class="page-item"><span class="page-link">2</span></li>
+                    <li class="page-item"><span class="page-link">3</span></li>
+                    <li class="page-item" >
+                        <button disabled="@IsLastPage" @onclick="NextPage" style="text-decoration:none;border:none;background-color:transparent">
+                            <span aria-hidden="true" class="page-link" >&raquo;</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+     </div>
 </div>
+
+@code {
+    private bool IsFirstPage;
+    private bool IsLastPage;
+
+    private async Task PreviousPage()
+    {
+        if (index == 1)
+        {
+            IsFirstPage = true;
+            IsLastPage = false;
+
+        }
+        else
+        {
+            index--;
+            await LoadData();
+        }
+    }
+
+    private async Task NextPage()
+    {
+        if (resignation.Count == 0)
+        {
+            IsLastPage = true;
+            IsFirstPage = false;
+        }
+        else
+        {
+            index++;
+            await LoadData();
+        }  
+    }
+}
 
 

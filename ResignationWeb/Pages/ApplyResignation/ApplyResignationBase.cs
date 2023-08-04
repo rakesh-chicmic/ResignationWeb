@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Components;
 using ResignationWeb.Models;
 using ResignationWeb.Models.DTOs;
 using ResignationWeb.Services.Contracts;
+using System.Collections.Generic;
+using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -19,7 +21,7 @@ namespace ResignationWeb.Pages.ApplyResignation
         public IToastService? Toast { get; set; }
         protected async override Task OnInitializedAsync()
         {
-            response = await resignationService!.GetAsync();
+            response = await resignationService!.GetAsync(0, 0, "");
             string responseData = JsonSerializer.Serialize(response!.Data);
             resignation = JsonSerializer.Deserialize<List<ResignationDTO>>(responseData)!;
            

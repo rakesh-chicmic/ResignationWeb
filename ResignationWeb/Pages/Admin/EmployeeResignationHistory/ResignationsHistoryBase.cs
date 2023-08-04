@@ -11,20 +11,29 @@ namespace ResignationWeb.Pages.Admin.EmployeeResignationHistory
     public class ResignationsHistoryBase : ComponentBase
     {
         public APIResponse response = new APIResponse();
-        public List<ResignationDTO> resignation = new List<ResignationDTO>();
+        public List<ResignationWithUser> resignation = new List<ResignationWithUser>();
         [Inject]
         public IResignationService? resignationService { get; set; }
         [Inject]
         public IToastService? Toast { get; set; }
+        public int index = 1;
+        public int limit = 1;
         protected async override Task OnInitializedAsync()
         {
-            response = await resignationService!.GetAsync();
+             await LoadData();
+        }
+
+        protected async Task LoadData()
+        {
+            response = await resignationService!.GetAsync(index, limit, "");
             if (response == null)
             {
                 Toast!.ShowInfo("No Resignation Found");
             }
             string responseData = JsonSerializer.Serialize(response!.Data);
-            resignation = JsonSerializer.Deserialize<List<ResignationDTO>>(responseData)!;
+            resignation = JsonSerializer.Deserialize<List<ResignationWithUser>>(responseData)!;
+            StateHasChanged();
+            Console.WriteLine(resignation.Count);
         }
     }
 }

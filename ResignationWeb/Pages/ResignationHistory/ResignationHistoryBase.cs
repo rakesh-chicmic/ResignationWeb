@@ -11,7 +11,7 @@ namespace ResignationWeb.Pages.ResignationHistory
     public class ResignationHistoryBase : ComponentBase
     {
         public APIResponse response = new APIResponse();
-        public List<ResignationDTO> resignation = new List<ResignationDTO>();
+        public List<ResignationWithUser> resignation = new List<ResignationWithUser>();
         [Inject]
         public IResignationService? resignationService { get; set; }
         [Inject]
@@ -19,14 +19,14 @@ namespace ResignationWeb.Pages.ResignationHistory
         protected async override Task OnInitializedAsync()
         {
            // string resignId = "64c38d37746ec2eed691140c";
-            response = await resignationService!.GetAsync();
+            response = await resignationService!.GetAsync(0, 0, "");
             if (response == null)
             {
                 Toast!.ShowInfo("No Resignation Found");
             }
             string responseData = JsonSerializer.Serialize(response!.Data);
-            resignation = JsonSerializer.Deserialize<List<ResignationDTO>>(responseData)!;
-            Console.WriteLine(resignation);
+            resignation = JsonSerializer.Deserialize<List<ResignationWithUser>>(responseData)!;
+            
         }
     }
 }
