@@ -1,0 +1,21 @@
+﻿.row {
+    padding:20px;
+    font-weight:400;
+}
+.modal {
+    font-family: Segoe UI;
+    font-size: 18px;
+}
+
+.close {
+    border: none;
+    background-color: transparent;
+    border-radius: 50%;
+    padding-left:8px;
+    padding-right:8px;
+    background-color: #FF8750;
+}
+
+.fontWeight{
+    font-weight:500
+}

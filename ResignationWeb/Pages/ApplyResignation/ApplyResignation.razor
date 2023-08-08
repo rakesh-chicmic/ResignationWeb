@@ -1,11 +1,12 @@
 ﻿@page "/apply-resign"
+@page "/"
 @inherits ApplyResignationBase
 
-
+<DeleteConfirmation ConfirmationChanged="ConfirmDelete_Click" Title="Withdraw Resignation" Message="Are you sure ?" ButtonText="Yes, Withdraw"></DeleteConfirmation>
 @if (resignation.Any(x => x.status == 1))
 {
     <h3>Withdraw Resignation</h3>
-    <button class="button-withdraw" @onclick:preventDefault=true @onclick="()=>WithdrawResignation_Click(resignation.FirstOrDefault(x=>x.status==1).id.ToString())">Withdraw</button>
+    <button class="button-withdraw" @onclick:preventDefault=true @onclick="()=>HandleDelete(resignation.FirstOrDefault(x=>x.status==1).id.ToString())">Withdraw</button>
 }
 else{
 @if(!resignation.Any(x=>x.status==3)){

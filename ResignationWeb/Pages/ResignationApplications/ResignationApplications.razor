@@ -1,79 +1,111 @@
 ﻿@page "/resign-applications"
 @inherits ResignationApplicationsBase
 
-<h3>Resignation Applications</h3>
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <table class="table">
-              <thead>
-                <tr>
-                 <td>Employee</td>
-                 <td>APPLIED ON</td>
-                  <td>RESIGN DATE</td>
-                  <td>RELIEVING DATE</td>
-                  <td>STATUS/ACTION</td>
-                  <td>Details</td>
-                </tr>
-              </thead>
-              <tbody>
-                   @if (resignation != null)
-                    {
-                           @foreach(var res in resignation){
-                            @if (@res.approvedBy == null)
-                            {
-                                string userResponse = JsonSerializer.Serialize(res.userDetails);
-                                List<User> userDetails = JsonSerializer.Deserialize<List<User>>(userResponse)!;
-                                <tr>
-                                  
-                                    <td>@userDetails[0].name</td>
-                                    <td class="fw-bold">@res.createdAt.Date.ToString("dd/MM/yyyy")</td>
-                                    <td>@res.resignationDate.ToString("dd/MM/yyyy")</td>
-                                    <td><input  type="date" @bind-value="@res.relievingDate" class="input-backgound" /></td>
-                                   <td>
-                                       <select  @onchange="e => UpdateStatus_Click(e, res)">
-                                           <option value="1">Pending</option>
-                                           <option value="3" >Approve</option>
-                                           <option value="4">Disapprove</option>
-                                       </select>
-                                   </td>
-                                    <td>
-                                        <i class="oi oi-eye ms-3"></i>
-                                    </td>
-                                </tr>
-                            }
-                        }  
-                        }
-                    else
-                    {
+
+    <h3>Resignation Applications</h3>
+    <div class="container">
+    @if (resignation.Count > 0)
+    {
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>No Records Found</td>
+                            <td>Employee</td>
+                            <td>APPLIED ON</td>
+                            <td>RESIGN DATE</td>
+                            <td>RELIEVING DATE</td>
+                            <td>STATUS/ACTION</td>
+                            <td>Details</td>
                         </tr>
-                    }
-              </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                            @foreach (var res in resignation)
+                            {
+                                @if (@res.approvedBy == null)
+                                {
+                                
+                                User userResponse = SerializeResponse(@res.userDetails);
+                                
+                                <ShowDetailsPopup Resignation="@res" UserDetails="userResponse" Title="Resignation Details"></ShowDetailsPopup>
+                                    <tr>
+                                       <td class="fw-bold">@userResponse.name <br /> <span class="empId">(@userResponse.employeeId)</span></td>
+                                        <td class="fw-bold">@res.createdAt.Date.ToString("dd/MM/yyyy")</td>
+                                        <td>@res.resignationDate.Date.ToString("dd/MM/yyyy")</td>
+                                        <td><input  type="date" @bind-value="@res.relievingDate" class="input-backgound" /></td>
+                                        <td>
+                                            <select  @onchange="e => UpdateStatus_Click(e, res)">
+                                                <option value="1">Pending</option>
+                                                <option value="3" >Approve</option>
+                                                <option value="4">Disapprove</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                           <h6 style="color:gray" class="ms-3"><i class="bi bi-eye-fill" @onclick="ShowDetails"></i></h6>    
+                                        </td>
+                                    </tr>
+                                }
+                            }         
+                    </tbody>
+                </table>
+            </div>
         </div>
-     </div>
-    @*pagination*@
-    <div class="row">
-        <div class="col justify-content-end me-3 mt-3">
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-end">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        @*pagination*@
+        <div class="row">
+            <div class="col justify-content-end me-3 mt-3">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item">
+                            <button disabled="@IsFirstPage" @onclick="GoToPreviousPage" class="pagination-buttons">
+                                <span aria-hidden="true" class="page-link">&laquo;</span>
+                            </button>
+
+                        </li>
+
+                        <li class="page-item"><span class="page-link currentPage">@pagination.CurrentPage</span></li>
+                        <li class="page-item">
+                            <button disabled="@IsLastPage" @onclick="GoToNextPage" class="pagination-buttons">
+                                <span aria-hidden="true" class="page-link">&raquo;</span>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
-    </div>
+        }
+        else
+        {
+          <NoRecordFound></NoRecordFound>
+        }
 </div>
+
+
+@code {
+    private bool IsFirstPage => pagination.CurrentPage == 1;
+    private bool IsLastPage => pagination.CurrentPage == pagination.TotalPages;
+
+    private async Task GoToNextPage()
+    {
+        if (!IsLastPage)
+        {
+            pagination.CurrentPage++;
+
+            await LoadData();
+        }
+    }
+
+    private async Task GoToPreviousPage()
+    {
+        if (!IsFirstPage)
+        {
+            pagination.CurrentPage--;
+            await LoadData();
+        }
+    }
+    private User SerializeResponse(object res)
+    {
+        string Response = JsonSerializer.Serialize(res);
+        List<User> Details = JsonSerializer.Deserialize<List<User>>(Response)!;
+        return Details[0];
+    }
+}

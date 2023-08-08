@@ -32,13 +32,35 @@ h3 {
 
 .input-backgound {
     background-color: #F0F0F0;
-    border:none
-}
-
-.input-backgound:active{
-    background-color: #F0F0F0;
     border: none
 }
 
+    .input-backgound:active {
+        background-color: #F0F0F0;
+        border: none
+    }
 
+.pagination-buttons {
+    text-decoration: none;
+    background-color: transparent;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    border: none;
+}
 
+.pagination-buttons span {
+   color: black;
+}
+
+.currentPage {
+    border-color: #ff8750;
+    background: #ff8750;
+    color: white;
+    cursor: default;
+}
+
+.empId {
+    font-size: 12px;
+    font-weight: 100;
+    color: #FF8750;
+}

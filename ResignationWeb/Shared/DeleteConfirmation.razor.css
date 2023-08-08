@@ -1,0 +1,13 @@
+﻿.modal {
+    font-family: Segoe UI;
+}
+
+.close {
+    border: none;
+    background-color: transparent;
+    border-radius: 50%;
+    padding-left: 9px;
+    padding-right: 9px;
+    background-color: #FF8750;
+    font-size:20px;
+}

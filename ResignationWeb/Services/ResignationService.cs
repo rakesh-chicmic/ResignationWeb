@@ -6,6 +6,8 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text;
 using ResignationWeb.Models.DTOs;
+using BlazorBootstrap;
+using System.Globalization;
 
 namespace ResignationWeb.Services
 {
@@ -55,16 +57,62 @@ namespace ResignationWeb.Services
             }
         }
 
-        public async Task<APIResponse> GetAsync(int? index=0, int? limit=0, string? resignId="")
+        public async Task<APIResponse> GetAsync(int? limit = null, int? index = null, string? sortKey = null,
+                                        int? sortDirection = null, string? id = null, int? status = null,
+                                        string? userId = null)
         {
             try
                {
-                if (resignId == "")
-                {
-                    var responseAll = await _httpClient.GetFromJsonAsync<APIResponse>($"http://192.180.0.127:4148/api/resignation?limit={limit}&index={index}");
-                    return responseAll!;
-                }
-                var response = await _httpClient.GetFromJsonAsync<APIResponse>($"http://192.180.0.127:4148/api/resignation?limit={limit}&index={index}&id={resignId}");
+                //if (resignId == "")
+                //{
+                //    var responseAll = await _httpClient.GetFromJsonAsync<APIResponse>($"http://192.180.0.127:4148/api/resignation?limit={limit}&index={index}");
+                //    return responseAll!;
+                //}
+
+
+                //var response = await _httpClient.GetFromJsonAsync<APIResponse>($"http://192.180.0.127:4148/api/resignation?limit={limit}&index={index}&id={resignId}");
+                //    return response!;
+                //}
+                
+                    string apiUrl = $"http://192.180.0.127:4148/api/resignation?";
+
+                    // Append filters to the URL if provided
+                    if (limit!=null)
+                    {
+                        apiUrl += $"limit={limit}&";
+                    }
+
+                    if (index!=null)
+                    {
+                        apiUrl += $"index={index}&";
+                    }
+
+                    if (!string.IsNullOrEmpty(sortKey))
+                    {
+                        apiUrl += $"sortKey={sortKey}&";
+                    }
+
+                    if (sortDirection.HasValue)
+                    {
+                        apiUrl += $"sortDirection={sortDirection}&";
+                    }
+
+                    if (!string.IsNullOrEmpty(id))
+                    {
+                        apiUrl += $"id={id}&";
+                    }
+
+                    if (status.HasValue)
+                    {
+                        apiUrl += $"status={status}&";
+                    }
+
+                    if (!string.IsNullOrEmpty(userId))
+                    {
+                        apiUrl += $"userId={userId}&";
+                    }
+
+                    var response = await _httpClient.GetFromJsonAsync<APIResponse>(apiUrl.TrimEnd('&'));
                     return response!;
                 }
                 catch (Exception)

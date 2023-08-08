@@ -3,6 +3,8 @@
 
 <h3>Resignation History</h3>
 <div class="container">
+    @if (resignation.Count > 0)
+    {
     <div class="row">
         <div class="col">
             <table class="table">
@@ -12,56 +14,35 @@
                   <td>RESIGN DATE</td>
                   <td>RELIEVING DATE</td>
                   <td>STATUS</td>
-                  <td>APPROVED BY</td>
+                  <td>ACTION BY</td>
                   <td>ACTION</td>
                 </tr>
               </thead>
               <tbody>
-                 
-                    @if (resignation != null)
-                    {
                            @foreach(var res in resignation){
                                 <tr>
                                 <td class="fw-bold">@res.createdAt.Date.ToString("dd/MM/yyyy")</td>
-                                <td>@res.resignationDate.ToString("dd/MM/yyyy")</td>
-                                <td>@res.relievingDate.ToString("dd/MM/yyyy")</td>
-                                @if (@res.status == 1)
-                                {
-                                    <td><span class="bg-warning px-1 rounded text-white text-weight">Pending</span></td>
-                                }
-                                else if (@res.status == 3)
-                                    {
-                                    <td><span class="bg-success px-1 rounded text-white text-weight">Approved</span></td>
-                                }
-                                else if (@res.status == 4)
-                                {
-                                     <td><span class="bg-danger px-1 rounded text-white text-weight">Disapproved</span></td>
-                                }
-
+                                <td>@res.resignationDate.Date.ToString("dd/MM/yyyy")</td>
+                                <td>@res.relievingDate.Date.ToString("dd/MM/yyyy")</td>
+                                <td><Status Value="@res.status"></Status></td>
                                 @if (@res.approvedBy == null)
                                 {
                                     <td>N/A</td>
+                                    User userResponse = SerializeResponse(@res.userDetails);
+                                    <ShowDetailsPopup Resignation="@res"  UserDetails="userResponse" Title="Resignation Details"></ShowDetailsPopup>
                                 }
                                 else
                                 {
-                                    string approverResponse = JsonSerializer.Serialize(res.approverDetails);
-                                    List<User> approverDetails = JsonSerializer.Deserialize<List<User>>(approverResponse)!;
-                                    <td>@approverDetails[0].name</td>
+                                    User approverResponse = SerializeResponse(@res.approverDetails);
+                                    User userResponse = SerializeResponse(@res.userDetails);
+                                    <td>@approverResponse.name</td>
+                                    <ShowDetailsPopup Resignation="@res" Approver="@approverResponse" UserDetails="userResponse" Title="Resignation Details"></ShowDetailsPopup>
                                 }
                                 <td>
-                                     <i class="oi oi-eye ms-1"></i>
-                                     <i class="oi oi-delete"></i>
+                                    <h6 style="color:gray" class="ms-3"><i class="bi bi-eye-fill" @onclick="ShowDetails"></i></h6>
                                 </td>
                                  </tr>
-                           }  
-                        }
-
-                    else
-                    {
-                        <tr>
-                        <td>No Records Found</td>
-                        </tr>
-                    }    
+                           }   
                   
               </tbody>
 
@@ -75,16 +56,15 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-end">
                     <li class="page-item" >
-                        <button disabled="@IsFirstPage" @onclick="PreviousPage"  style="text-decoration:none;border:none;background-color:transparent">
+                            <button disabled="@IsFirstPage" @onclick="GoToPreviousPage" class="pagination-buttons">
                             <span aria-hidden="true" class="page-link">&laquo;</span>
                         </button>
                         
                     </li>
-                    <li class="page-item"><span class="page-link">1</span></li>
-                    <li class="page-item"><span class="page-link">2</span></li>
-                    <li class="page-item"><span class="page-link">3</span></li>
+
+                        <li class="page-item"><span class="page-link currentPage">@pagination.CurrentPage</span></li>
                     <li class="page-item" >
-                        <button disabled="@IsLastPage" @onclick="NextPage" style="text-decoration:none;border:none;background-color:transparent">
+                            <button disabled="@IsLastPage" @onclick="GoToNextPage" class="pagination-buttons">
                             <span aria-hidden="true" class="page-link" >&raquo;</span>
                         </button>
                     </li>
@@ -92,39 +72,41 @@
             </nav>
         </div>
      </div>
+    }
+    else
+    {
+        <NoRecordFound></NoRecordFound>
+    }
 </div>
 
+
 @code {
-    private bool IsFirstPage;
-    private bool IsLastPage;
-
-    private async Task PreviousPage()
+    private bool IsFirstPage => pagination.CurrentPage == 1;
+    private bool IsLastPage => pagination.CurrentPage == pagination.TotalPages;
+    
+    private async Task GoToNextPage()
     {
-        if (index == 1)
+        if (!IsLastPage)
         {
-            IsFirstPage = true;
-            IsLastPage = false;
-
-        }
-        else
-        {
-            index--;
+            pagination.CurrentPage++;
             await LoadData();
         }
     }
 
-    private async Task NextPage()
+    private async Task GoToPreviousPage()
     {
-        if (resignation.Count == 0)
+        if (!IsFirstPage)
         {
-            IsLastPage = true;
-            IsFirstPage = false;
-        }
-        else
-        {
-            index++;
+            pagination.CurrentPage--;
             await LoadData();
-        }  
+        }
+    }
+
+    private User SerializeResponse(object res)
+    {
+        string Response = JsonSerializer.Serialize(res);
+        List<User> Details = JsonSerializer.Deserialize<List<User>>(Response)!;
+        return Details[0];
     }
 }
 

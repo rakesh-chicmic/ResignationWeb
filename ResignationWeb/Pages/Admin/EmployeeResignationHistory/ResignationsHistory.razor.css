@@ -28,3 +28,22 @@ h3 {
 .table thead {
     background-color: #e9ecef;
 }
+
+.pagination-buttons {
+    text-decoration: none;
+    background-color: transparent;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    border: none;
+    
+}
+.pagination-buttons span{
+    color:black;
+}
+
+.currentPage {
+        border-color: #ff8750;
+        background: #ff8750;
+        color: white;
+        cursor: default;
+}

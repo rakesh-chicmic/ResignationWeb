@@ -1,0 +1,46 @@
+﻿<div class="modal fade" id="showDetails" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Title</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div><span class="fontWeight">Name: </span>@UserDetails.name</div>
+                    <div><span class="fontWeight">Applied On: </span>@Resignation.createdAt.Date.ToString("dd/MM/yyyy")</div>
+                    <div><span class="fontWeight">Reason: </span>@Resignation.reason</div>
+                    <div><span class="fontWeight">Comments: </span>@Resignation.comments</div>
+                </div>
+                <div class="col-4">
+                    <div>
+                        <span class="fontWeight">Status</span>:
+                        <Status Value="Resignation.status"></Status>
+                    </div>
+                    <div><span class="fontWeight">Resignation Date: </span>@Resignation.resignationDate.Date.ToString("dd/MM/yyyy")</div>
+                    <div><span class="fontWeight">Relieving Date: </span>@Resignation.relievingDate.Date.ToString("dd/MM/yyyy")</div>
+                </div>
+                <div class="col-4">
+                    <div><span class="fontWeight">Approved/Disapproved By: </span>@Approver.name</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public ResignationWithUser? Resignation { get; set; } = new ResignationWithUser();
+    [Parameter]
+    public User? Approver { get; set; } = new User()
+        {
+            name = "N/A"
+        };
+    [Parameter]
+    public User? UserDetails { get; set; } = new User();
+    [Parameter]
+    public string? Title { get; set; } 
+}
