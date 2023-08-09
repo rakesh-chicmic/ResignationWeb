@@ -46,10 +46,6 @@ namespace ResignationWeb.Pages.ResignationApplications
             StateHasChanged();
 
         }
-        public void ShowDetails()
-        {
-            jSRuntime.InvokeVoidAsync("ShowDetailsModal");
-        }
         protected async void UpdateStatus_Click(ChangeEventArgs e, ResignationWithUser resign)
         {
             try

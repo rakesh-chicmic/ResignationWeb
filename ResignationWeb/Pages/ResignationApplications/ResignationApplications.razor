@@ -1,7 +1,7 @@
 ﻿@page "/resign-applications"
 @inherits ResignationApplicationsBase
 
-<ShowDetailsPopup Resignation="@resignDetails" Approver="@approverResponse" UserDetails="@userResponse" Title="Resignation Details"></ShowDetailsPopup>
+<ShowDetailsPopup Resignation="@resignDetails" UserDetails="@userResponse" Title="Resignation Details"></ShowDetailsPopup>
 <h3>Resignation Applications</h3>
 <div class="container">
     @if (resignation.Count > 0)
@@ -24,9 +24,9 @@
                         {
                             @if (@res.approvedBy == null)
                             {
-
+                                User emp = SerializeResponse(res.userDetails);
                                 <tr class="align-baseline">
-                                    <td class="fw-bold">@userResponse.name <br /> <span class="empId">(@userResponse.employeeId)</span></td>
+                                    <td class="fw-bold">@emp.name <br /> <span class="empId">(@emp.employeeId)</span></td>
                                     <td class="fw-bold">@res.createdAt.Date.ToString("dd/MM/yyyy")</td>
                                     <td>@res.resignationDate.Date.ToString("dd/MM/yyyy")</td>
                                     <td><input type="date" @bind-value="@res.relievingDate" class="input-backgound" /></td>
@@ -38,7 +38,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <h6 style="color:gray" class="ms-3"><i class="bi bi-eye-fill" @onclick="ShowDetails"></i></h6>
+                                        <h6 style="color:gray" class="ms-3"><i class="bi bi-eye-fill" @onclick="()=>ShowDetails(res)"></i></h6>
                                     </td>
                                 </tr>
                             }
@@ -81,7 +81,6 @@
     private bool IsFirstPage => pagination.CurrentPage == 1;
     private bool IsLastPage => pagination.CurrentPage == pagination.TotalPages;
     private User userResponse = new User();
-    private User approverResponse = new User();
     private ResignationWithUser resignDetails = new ResignationWithUser();
     private async Task GoToNextPage()
     {
@@ -110,14 +109,6 @@
     public void ShowDetails(ResignationWithUser res)
     {
         resignDetails = res;
-        if (res.approvedBy == null)
-        {
-            approverResponse.name = "N/A";
-        }
-        else
-        {
-            approverResponse = SerializeResponse(res.approverDetails);
-        }
         userResponse = SerializeResponse(res.userDetails);
         jSRuntime.InvokeVoidAsync("ShowDetailsModal");
     }

@@ -30,12 +30,11 @@
                                 @if (@res.approvedBy == null)
                                 {
                                     <td>N/A</td>
-
                                 }
                                 else
                                 {
-                                    <td>@approverResponse.name</td>
-
+                                    User actionUser = SerializeResponse(res.approverDetails);
+                                    <td>@actionUser.name</td>
                                 }
                                 <td>
                                     <h6 style="color:gray" class="ms-3"><i class="bi bi-eye-fill" @onclick="()=>ShowDetails(res)"></i></h6>

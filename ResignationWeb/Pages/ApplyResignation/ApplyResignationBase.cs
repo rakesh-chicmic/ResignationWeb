@@ -18,7 +18,7 @@ namespace ResignationWeb.Pages.ApplyResignation
         public APIResponse response = new APIResponse();
         public DataList dataList = new DataList();
         public List<ResignationWithUser> resignation = new List<ResignationWithUser>();
-        public ResignationRequestDTO resignRequest = new ResignationRequestDTO();
+        public ResignationRequestDTO resignRequest = new ResignationRequestDTO() { ResignationDate= DateTime.Now };
         [Inject]
         public IResignationService? resignationService { get; set; }
         [Inject]
