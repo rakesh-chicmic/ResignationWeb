@@ -8,18 +8,22 @@ h3 {
     border: 0.2px solid rgba(0,0,0,.125);
     font-family: Segoe UI;
     border-radius: 0.3rem;
-    font-size:14px;
-    font-weight:600;
-    padding:0;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0;
 }
 
 .table {
-    margin:0px;
-    margin-left:0px;
+    margin: 0px;
+    margin-left: 0px;
+}
+
+.table > :not(:last-child) > :last-child > * {
+    border-bottom-color: rgba(0,0,0,.125);
 }
 
 .table tr td {
-    font-weight:400;
+    font-weight: 400;
 }
 
 .text-weight {
@@ -30,18 +34,23 @@ h3 {
     background-color: #e9ecef;
 }
 
+.table thead tr td {
+    font-weight: 500;
+    font-size: 12px;
+}
+
 .pagination-buttons {
     text-decoration: none;
     background-color: transparent;
     padding-left: 0.25rem;
     padding-right: 0.25rem;
-    border:none;
-    color:black;
+    border: none;
+    color: black;
 }
 
-.pagination-buttons span {
-   color: black;
-}
+    .pagination-buttons span {
+        color: black;
+    }
 
 .currentPage {
     border-color: #ff8750;
@@ -50,4 +59,19 @@ h3 {
     cursor: default;
 }
 
-    
+.shadow {
+    box-shadow: 0 .5rem 1rem #00000026 !important;
+}
+
+.view {
+    color: gray;
+}
+
+.view :hover {
+    cursor: pointer;
+    color: black;
+}
+
+.active-row:hover {
+    background-color: #e9ecef;
+}

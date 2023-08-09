@@ -3,7 +3,7 @@
 
 <ShowDetailsPopup Resignation="@resignDetails" UserDetails="@userResponse" Title="Resignation Details"></ShowDetailsPopup>
 <h3>Resignation Applications</h3>
-<div class="container">
+<div class="container shadow">
     @if (resignation.Count > 0)
     {
         <div class="row">
@@ -11,12 +11,12 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <td>Employee</td>
+                            <td>EMPLOYEE</td>
                             <td>APPLIED ON</td>
                             <td>RESIGN DATE</td>
                             <td>RELIEVING DATE</td>
                             <td>STATUS/ACTION</td>
-                            <td>Details</td>
+                            <td>DETAILS</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -25,20 +25,22 @@
                             @if (@res.approvedBy == null)
                             {
                                 User emp = SerializeResponse(res.userDetails);
-                                <tr class="align-baseline">
+                                <tr class="align-baseline active-row">
                                     <td class="fw-bold">@emp.name <br /> <span class="empId">(@emp.employeeId)</span></td>
                                     <td class="fw-bold">@res.createdAt.Date.ToString("dd/MM/yyyy")</td>
                                     <td>@res.resignationDate.Date.ToString("dd/MM/yyyy")</td>
-                                    <td><input type="date" @bind-value="@res.relievingDate" class="input-backgound" /></td>
                                     <td>
-                                        <select @onchange="e => UpdateStatus_Click(e, res)" class="p-2">
-                                            <option value="1">Pending</option>
-                                            <option value="3">Approve</option>
-                                            <option value="4">Disapprove</option>
+                                        <input type="date" @bind-value="@res.relievingDate" class="input-backgound"  />
+                                    </td>
+                                    <td>
+                                        <select @onchange="e => UpdateStatus_Click(e, res)" class="input-backgound">
+                                            <option value="1" disabled>Pending</option>
+                                            <option value="3">Approved</option>
+                                            <option value="4">Disapproved</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <h6 style="color:gray" class="ms-3"><i class="bi bi-eye-fill" @onclick="()=>ShowDetails(res)"></i></h6>
+                                        <h6 class="ms-3 view"><i class="fa fa-eye" aria-hidden="true" @onclick="()=>ShowDetails(res)"></i></h6>
                                     </td>
                                 </tr>
                             }

@@ -26,18 +26,27 @@ resign-date {
     border-radius: 0.25rem;
 }
 
-.button-withdraw {
-    padding: .375rem 1rem;
+.withdraw {
+    padding: 5px;
     color: #fff;
     border: none;
     background-color: #DC3545;
-    font-size: 1rem;
+    font-size: 15px;
     line-height: 1.5;
     border-radius: 0.25rem;
     font-family: Segoe UI;
-    font-weight:500
+    font-weight: 500;
+    text-transform:uppercase;
 }
 
 .input-backgound {
-    background-color: #F0F0F0;
+    border: none !important;
+    background-color: #F0F0F0 !important;
+    border-radius: 6px !important;
 }
+
+.shadow {
+    box-shadow: 0 .5rem 1rem #00000026 !important;
+}
+
+

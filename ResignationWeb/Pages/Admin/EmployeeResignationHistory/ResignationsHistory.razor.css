@@ -18,6 +18,9 @@ h3 {
     margin-left: 0px;
 }
 
+.table > :not(:last-child) > :last-child > * {
+    border-bottom-color: rgba(0,0,0,.125);
+}
 .table tr td {
     font-weight: 400;
 }
@@ -27,6 +30,11 @@ h3 {
 }
 .table thead {
     background-color: #e9ecef;
+}
+
+.table thead tr td {
+    font-weight: 500;
+    font-size: 12px;
 }
 
 .pagination-buttons {
@@ -47,3 +55,20 @@ h3 {
         color: white;
         cursor: default;
 }
+
+.shadow {
+    box-shadow: 0 .5rem 1rem #00000026 !important;
+}
+
+.view {
+    color: gray;
+}
+.view :hover {
+    cursor:pointer;
+    color:black;
+}
+
+.active-row:hover {
+    background-color: #e9ecef;
+}
+

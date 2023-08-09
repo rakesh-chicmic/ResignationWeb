@@ -17,10 +17,13 @@ h3 {
     margin: 0px;
     margin-left: 0px;
 }
+.table > :not(:last-child) > :last-child > * {
+    border-bottom-color: rgba(0,0,0,.125);
+}
 
-    .table tr td {
-        font-weight: 400;
-    }
+.table tr td {
+    font-weight: 400;
+}
 
 .text-weight {
     font-weight: 500
@@ -30,15 +33,22 @@ h3 {
     background-color: #e9ecef;
 }
 
+.table thead tr td {
+    font-weight: 500;
+    font-size: 12px;
+}
+
 .input-backgound {
+    border: none !important;
+    background-color: #F0F0F0 !important;
+    border-radius: 6px !important;
+    padding:5px;
+}
+
+.input-backgound:active {
     background-color: #F0F0F0;
     border: none
 }
-
-    .input-backgound:active {
-        background-color: #F0F0F0;
-        border: none
-    }
 
 .pagination-buttons {
     text-decoration: none;
@@ -63,4 +73,21 @@ h3 {
     font-size: 12px;
     font-weight: 100;
     color: #FF8750;
+}
+
+.shadow {
+    box-shadow: 0 .5rem 1rem #00000026 !important;
+}
+
+.view {
+    color: gray;
+}
+
+.view :hover {
+    cursor: pointer;
+    color: black;
+}
+
+.active-row:hover {
+    background-color: #e9ecef;
 }

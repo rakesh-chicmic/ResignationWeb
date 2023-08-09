@@ -2,12 +2,15 @@
     font-family: Segoe UI;
 }
 
+.modal-body {
+    font-size: 18px;
+    font-weight:400
+}
 .close {
     border: none;
     background-color: transparent;
     border-radius: 50%;
-    padding-left: 9px;
-    padding-right: 9px;
+    padding: 1px 10px 2px 10px;
     background-color: #FF8750;
-    font-size:20px;
+    font-size: 20px;
 }
