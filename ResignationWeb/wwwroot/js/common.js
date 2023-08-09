@@ -13,6 +13,10 @@ function ShowDetailsModal() {
 function HideDetailsModal() {
     $('#showDetails').modal('hide');
 }
+function showdate() {
+    $("#kt_datepicker_2").flatpickr();
+}
+
 
 
 

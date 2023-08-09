@@ -41,9 +41,6 @@ namespace ResignationWeb.Pages.Admin.EmployeeResignationHistory
             StateHasChanged();
         }
 
-        public void ShowDetails()
-        {
-            jSRuntime.InvokeVoidAsync("ShowDetailsModal");
-        }
+        
     }
 }

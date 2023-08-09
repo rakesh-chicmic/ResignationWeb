@@ -8,37 +8,39 @@
     <h3>Withdraw Resignation</h3>
     <button class="button-withdraw" @onclick:preventDefault=true @onclick="()=>HandleDelete(resignation.FirstOrDefault(x=>x.status==1).id.ToString())">Withdraw</button>
 }
-else{
-@if(!resignation.Any(x=>x.status==3)){
-<h3>Apply Resignation</h3>
-<div class="container p-3">
-    <EditForm Model="@resignRequest" OnValidSubmit="()=>(CreateResignation_Click(resignRequest))">
-    <DataAnnotationsValidator />
-    <div class="row mb-3">
-        <div class="col">
-            <label for="date" class="form-label">Date</label>
-                <InputDate class="form-control resign-date" placeholder="Select Date" @bind-Value="@resignRequest.ResignationDate" id="date" style="background-color:#F0F0F0" />
-                <ValidationMessage For="@(() => resignRequest.ResignationDate)" />
-        </div>
-        <div class="col">
-            <label for="reason" class="form-label">Reason</label>
-                <InputText class="form-control" type="text" id="reason" placeholder="Enter reason" @bind-Value="@resignRequest.Reason" style="background-color:#F0F0F0" />
-                <ValidationMessage For="@(() => resignRequest.Reason)" />
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col">
-            <label for="comments" class="form-label">Comments</label>
-                <InputTextArea class="form-control " id="comments" rows="3" placeholder="Enter here..." @bind-Value="@resignRequest.Comments" style="background-color:#F0F0F0"></InputTextArea>
+else
+{
+    @if (!resignation.Any(x => x.status == 3))
+    {
+        <h3>Apply Resignation</h3>
+        <div class="container p-3">
+            <EditForm Model="@resignRequest" OnValidSubmit="()=>(CreateResignation_Click(resignRequest))">
+                <DataAnnotationsValidator />
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="date" class="form-label">Select Date</label>
+                        <InputDate class="form-control resign-date" @bind-Value="@resignRequest.ResignationDate" id="date" style="background-color:#F0F0F0" />
+                        <ValidationMessage For="@(() => resignRequest.ResignationDate)" />
+                    </div>
+                    <div class="col">
+                        <label for="reason" class="form-label">Reason</label>
+                        <InputText class="form-control" type="text" id="reason" placeholder="Enter reason" @bind-Value="@resignRequest.Reason" style="background-color:#F0F0F0" />
+                        <ValidationMessage For="@(() => resignRequest.Reason)" />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="comments" class="form-label">Comments</label>
+                        <InputTextArea class="form-control " id="comments" rows="3" placeholder="Enter here..." @bind-Value="@resignRequest.Comments" style="background-color:#F0F0F0"></InputTextArea>
 
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col">
+                        <button type="submit" class="button-apply">Apply</button>
+                    </div>
+                </div>
+            </EditForm>
         </div>
-    </div>
-    <div class="row text-center">
-        <div class="col">
-                    <button type="submit" class="button-apply">Apply</button>
-        </div>
-    </div>
-    </EditForm>
-    </div>
-}
+    }
 }

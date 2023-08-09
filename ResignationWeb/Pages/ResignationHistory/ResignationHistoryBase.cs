@@ -42,10 +42,5 @@ namespace ResignationWeb.Pages.ResignationHistory
             pagination.TotalItems = dataList.totalCount;
             StateHasChanged();
         }
-
-        public void ShowDetails()
-        {
-            jSRuntime.InvokeVoidAsync("ShowDetailsModal");
-        }
     }
 }
